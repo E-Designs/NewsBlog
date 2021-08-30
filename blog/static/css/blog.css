@@ -1,0 +1,35 @@
+article a:link {
+    color: #1940DE;
+}
+
+article a:visited { 
+    color: #6B8491;
+}
+
+article a:hover{
+    color: #1A2639;
+}
+
+article a:active{
+    color: #09E609;
+}
+
+header a{
+    color: #2A2C2B;
+}
+
+body{
+    padding-left: 15px;
+}
+
+.post{
+    margin-bottom: 70px;
+}
+
+.page-header{
+    background-color: #FFFF00;
+}
+
+.date{
+    color: #777777;
+}
