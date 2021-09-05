@@ -1,9 +1,9 @@
 article a:link {
-    color: #1940DE;
+    color: #060694;
 }
 
 article a:visited { 
-    color: #6B8491;
+    color: #2baaa4;
 }
 
 article a:hover{
@@ -11,7 +11,7 @@ article a:hover{
 }
 
 article a:active{
-    color: #09E609;
+    color: #147710;
 }
 
 header a{
@@ -31,5 +31,5 @@ body{
 }
 
 .date{
-    color: #777777;
+    color: #1bc010;
 }
