@@ -2,6 +2,9 @@
 
 {% block content %}
 <article class="post">
+    <aside class="actions">
+        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">Edit Post</a> 
+    </aside>
     {% if post.published_date %}
     <time class="date">
         {{ post.published_date }}
