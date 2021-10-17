@@ -4,14 +4,14 @@
 <div class="content-secton">
     <form method="POST">
         {% csrf_token %}
-        <fieldset class="form_group">
+        <fieldset class="form-group">
             <legend class="border-bottem mb-4">LogIn Form</legend>
             {{form|crispy}}
         </fieldset>
         <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Login</button>
+            <button class="btn btn-primary" type="submit">Login</button>
             <small class="text-muted ml-2">
-                <a href="{% url 'password_reset' %}">Forgot Password</a>
+                <a class="btn btn-info"href="{% url 'password_reset' %}">Forgot Password</a>
             </small>
         </div>
     </form>

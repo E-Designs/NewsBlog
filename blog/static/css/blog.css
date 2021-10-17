@@ -1,25 +1,10 @@
-article a:link {
-    color: #060694;
-}
-
-article a:visited { 
-    color: #2baaa4;
-}
-
-article a:hover{
-    color: #1A2639;
-}
-
-article a:active{
-    color: #147710;
-}
-
 header a{
     color: #2A2C2B;
 }
 
 body{
-    padding-left: 15px;
+    margin-left: 16px;
+    margin-right: 16px;
 }
 
 .post{
@@ -28,8 +13,24 @@ body{
 
 .page-header{
     background-color: #FFFF00;
+    border: black solid 2px;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .date{
     color: #1bc010;
+}
+
+.arthor-img{
+    height: 55px;
+    width: 55px;
+}
+
+nav ul{
+    list-style-type: none;
+}
+
+nav ul li a{
+    text-decoration: none;
 }
