@@ -1,18 +1,25 @@
-header a{
-    color: #2A2C2B;
+html{
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body{
-    margin-left: 16px;
-    margin-right: 16px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .post{
     margin-bottom: 70px;
 }
 
+header a{
+    color: #2A2C2B;
+}
+
 .page-header{
-    background-color: #FFFF00;
+    background-color: #ffff00;
     border: black solid 2px;
     margin-top: 5px;
     margin-bottom: 10px;
