@@ -4,9 +4,17 @@
         {% for post in posts %}
             <article class="post">
                 <div>
-                    <img class="arthor-img" src="{{ post.author.profile.image.url }}">
+                    <a href="{% url 'post_authors_posts' find_author=post.author.pk%}">
+                        <img class="arthor-img" src="{{ post.author.profile.image.url }}">
+                    </a>
                 </div>  
-                <time class="date">published: {{ post.published_date }}</time>
+                <time class="date">
+                    published: {{ post.published_date }},
+                    Test: {{post.author.pk}},
+                    Author: {{post.author}},
+                    Catagory: {{post.catagory}},
+                    Subject: {{post.subject}}
+                </time>
                 <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
                 <p>{{ post.text | truncatewords:20 |linebreaksbr }}</p>
             </article>
