@@ -3,9 +3,25 @@
 {% block content %}
 <article class="post">
     <aside class="actions">
-        {% if user.is_authenticated and user == post.author %}
-        <a class="btn btn-primary" href="{% url 'post_edit' pk=post.pk %}">Edit Post</a> 
+        {% if user.is_authenticated %}
+            {% if user == post.author or user.is_staff %}
+                <a class="btn btn-primary" href="{% url 'post_edit' pk=post.pk %}">Edit Post</a> 
+                <a class="btn btn-danger" href="{% url 'post_delete' pk=post.pk %}">Delete Post</a>
+            {% else %}
+                {% if post.visability == 'pending'%}
+                    <a class="btn btn-danger"  href="{% url 'post_report' pk=post.pk %}">Report Post</a>
+                {% endif %}
+            {% endif %}
+            {% if user.is_staff %}
+                {% if post.visability == 'under review' %}
+                    <a class="btn btn-primary" href="{% url 'post_approve' pk=post.pk %}">Approve Post</a>
+                {% elif post.visability == 'hidden' %}
+                    <a class="btn btn-secondary" href="{% url 'post_show' pk=post.pk %}">Show post</a>
+                {%endif%}
+            {% endif %}
+
         {% endif %}
+        
     </aside>
     {% if post.published_date %}
     <time class="date">

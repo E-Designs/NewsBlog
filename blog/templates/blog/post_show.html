@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        <h1>Show Post</h1>
+        <p>The post has been recoverd.</p>
+        <button type="submit" class="btn btn-primary">Home</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        <h1>Report Post</h1>
+        <p>Thank you for helping to keep this site safe!</p>
+        <button type="submit" class="btn btn-primary">Home</button>
+    </form>
+{% endblock %}
