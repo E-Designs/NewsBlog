@@ -23,6 +23,11 @@
         {% endif %}
         
     </aside>
+    {% if post.image %}
+        <div class="post-image-div">
+            <img class="post-image" src="{{post.image.url}}">
+        </div>
+    {% endif %}
     {% if post.published_date %}
     <time class="date">
         {{ post.published_date }},
