@@ -1,12 +1,12 @@
 from django import forms
 from django.core.exceptions import ValidationError  
-from .models import Post
+from .models import Post, Comment
 
 class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('title', 'location', 'catagory', 'subject', 'image', 'text')
+        fields = ('title', 'city', 'state', 'country', 'catagory', 'subject', 'image', 'text')
 
     def clean_image(self):
 
@@ -23,3 +23,9 @@ class PostForm(forms.ModelForm):
             raise ValidationError('This is not an image file.')
 
         return uploaded_image
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ('text',)

@@ -1,6 +1,7 @@
 from typing import Tuple
 from django.conf import settings
 from django.db import models
+from django.db.models.fields import CharField
 from django.utils import timezone
 from django.contrib.auth.models import User
 from .utility import Visability_State
@@ -33,7 +34,9 @@ class Post(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    location = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
     catagory = models.CharField(max_length=100, choices= catagory_choices)
     subject = models.CharField(max_length=100, choices= subject_Choices)
     text = models.TextField()
@@ -55,10 +58,20 @@ class Post(models.Model):
 
         img = Image.open(self.image.path)
 
-        if img.height > 1020 or img.width > 1020:
+        if img.height > 600 or img.width > 600:
             output_size =(600,600)
             img.thumbnail(output_size)
             img.save(self.image.path)
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
+
+class Comment(models.Model):
+
+    comment_author = models.ForeignKey(User, on_delete=models.CASCADE)
+    story = models.ForeignKey(Post, on_delete=models.CASCADE)
+    text = models.CharField(max_length=200)
+    create_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.text
