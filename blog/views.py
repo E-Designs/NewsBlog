@@ -136,15 +136,3 @@ def post_show(request, pk):
         return redirect('post_list')
     else:
         return render(request, 'blog/post_show.html')
-
-@login_required
-def comment_new(request):
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if (form.is_valid):
-            comment = form.save(commit=False)
-            comment.comment_author = request.user
-            comment.story = request.post
-            comment.create_date = timezone.now()
-            comment.save()
-    return redirect('post_detail', pk=request.post)
