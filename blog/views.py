@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.http import response
+from django.http.response import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Post, Comment 
@@ -8,6 +10,7 @@ from .utility import Visability_State
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
 def post_about(request):
     return render(request, 'blog/post_about.html')
     
@@ -22,7 +25,7 @@ def post_list(request):
     return render(request, 'blog/post_list.html', context)
 
 def post_authors_posts(request, find_author):
-    posts = Post.objects.filter(author=find_author).order_by('published_date')
+    posts = Post.objects.filter(author=find_author).order_by('-published_date')
     pic = posts[0].author.profile.image.url
     auth = posts[0].author
     context = {
@@ -36,24 +39,12 @@ def post_authors_posts(request, find_author):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            form = CommentForm(request.POST)
-            if (form.is_valid):
-                comment = form.save(commit=False)
-                comment.comment_author = request.user
-                comment.story = post
-                comment.create_date = timezone.now()
-                comment.save()
-
-    comments = Comment.objects.filter(story = pk).order_by('create_date')
-    form = CommentForm()
+    comments = Comment.objects.filter(story = post).order_by('-create_date')
     context = {
         'post': post,
         'post_cat': Post.catagory_choices,
         'post_sub': Post.subject_Choices,
         'comments': comments,
-        'form': form, 
     }
     return render(request, 'blog/post_detail.html', context)
 
@@ -136,3 +127,19 @@ def post_show(request, pk):
         return redirect('post_list')
     else:
         return render(request, 'blog/post_show.html')
+
+@login_required
+def new_comment(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST": 
+        form = CommentForm(request.POST)
+        if (form.is_valid):
+            comment = form.save(commit=False)
+            comment.comment_author = request.user
+            comment.story = post
+            comment.create_date = timezone.now()
+            comment.save()
+            return redirect('post_detail', pk=pk)
+
+    form = CommentForm()
+    return render(request, 'blog/new_comment.html', {'form': form})

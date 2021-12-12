@@ -37,12 +37,14 @@ class Post(models.Model):
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
-    catagory = models.CharField(max_length=100, choices= catagory_choices)
-    subject = models.CharField(max_length=100, choices= subject_Choices)
+    catagory = models.CharField(max_length=100, choices= sorted(catagory_choices))
+    subject = models.CharField(max_length=100, choices= sorted(subject_Choices))
     text = models.TextField()
     visability = models.CharField(max_length=15, help_text= Visability_State.pending + ', ' +
     Visability_State.under_review + ', ' + Visability_State.approved + ', ' + Visability_State.hidden)
     image = models.ImageField(upload_to='post_pics/', default='post_default.jpg')
+    believers = models.ManyToManyField(User, related_name='post_believe')
+    nonbelievers = models.ManyToManyField(User, related_name='post_nonbeliever')
     create_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateField(blank=True, null=True)
 
@@ -51,7 +53,13 @@ class Post(models.Model):
         self.save()
 
     def __str__(self):
-        return self.title
+        return '%s - %s' % (self.author, self.title)
+
+    def number_of_believers(self):
+        return self.believers.count()
+
+    def number_of_nonbelievers(self):
+        return self.nonbelievers.count()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -74,4 +82,4 @@ class Comment(models.Model):
     create_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.text
+        return '%s - %s' % (self.story, self.text) 

@@ -54,11 +54,8 @@
 <article>
     <aside>
         <h3>Commnents</h3>
-        <form method="POST" class="post-form">
-           {% csrf_token %}
-            {{form|crispy}}
-            <button type="submit" class="save btn btn-primary">Submit Comment</button>
-        </form>
+        <p>Please join the conversation. Everyone is waiting to hear your words of wisdom.</p>
+        <a class="btn btn-primary" href="{% url 'new_comment' pk=post.pk %}">Add Comment</a>
     </aside>
     {% for comment in comments %}
     <aside>
