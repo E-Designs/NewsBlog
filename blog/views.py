@@ -45,6 +45,8 @@ def post_detail(request, pk):
         'post_cat': Post.catagory_choices,
         'post_sub': Post.subject_Choices,
         'comments': comments,
+        'number_of_believers': post.number_of_believers(),
+        'number_of_nonbelievers': post.number_of_nonbelievers(),
     }
     return render(request, 'blog/post_detail.html', context)
 
@@ -143,3 +145,43 @@ def new_comment(request, pk):
 
     form = CommentForm()
     return render(request, 'blog/new_comment.html', {'form': form})
+
+@login_required
+def post_believer(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    mesg = 'Thank you for voting.'
+    #check to see if the user is already a believer
+    if post.believers.filter(id=request.user.id).exists():
+        mesg = 'You are already a believer.'
+    else: #add user to the list
+         post.believers.add(request.user)
+    #checks to see if the user is in the nonbeliever list
+    if post.nonbelievers.filter(id=request.user.id).exists():
+        post.nonbelievers.remove(request.user) 
+
+    context={
+        'pk': pk,
+        'mesg': mesg
+    }
+
+    return render(request, 'blog/post_vote.html', context)
+
+@login_required
+def post_nonbeliever(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    mesg= 'Thank you for voting.'
+
+    if post.nonbelievers.filter(id=request.user.id).exists():
+        mesg = 'You are already a nonbeliever.'
+    else:
+        post.nonbelievers.add(request.user)
+
+    if post.believers.filter(id=request.user.id).exists():
+        post.believers.remove(request.user)
+
+    context={
+        'pk': pk,
+        'mesg': mesg
+    }
+
+    return render(request, 'blog/post_vote.html', context)

@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<article>
+    <h1>Your vote counts here!</h1>
+    <p>The regular news thinks you can't tell what news stories are true and which stories are fake.</p>
+    <p>{{mesg}}</p>
+    <a class="btn btn-primary" href="{% url 'post_detail' pk=pk%}">Return to article</a>
+</article>
+{% endblock %}
