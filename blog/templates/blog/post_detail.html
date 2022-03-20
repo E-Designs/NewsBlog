@@ -36,11 +36,8 @@
     <time class="date">
         {{ post.published_date }},
         Author: {{post.author}},
-        {% for id, value in post_cat %}
-            {% if id == post.catagory %}
-                Catagory: {{value}},
-            {% endif %}
-        {% endfor %}
+        City: {{post.city}},
+        State: {{post.state}},
         {% for id, value in post_sub %}
             {% if id == post.subject %}
                 Subject: {{value}}
@@ -51,7 +48,7 @@
     <h2>{{ post.title}}</h2>
     <p>{{ post.text|linebreaksbr}}</p>
     <a class="btn btn-primary" href="{% url 'post_believer' pk=post.pk %}">Believers: {{number_of_believers}}</a>
-    <a class="btn btn-danger" href="{% url 'post_nonbeliever' pk=post.pk %}">Nonbelievers: {{number_of_nonbelievers}}</a>
+    <a class="btn btn-danger" href="{% url 'post_nonbeliever' pk=post.pk %}">Sceptic: {{number_of_nonbelievers}}</a>
 </article>
 <article>
     <aside>

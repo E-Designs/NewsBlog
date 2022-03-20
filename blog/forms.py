@@ -6,7 +6,7 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('title', 'city', 'state', 'country', 'catagory', 'subject', 'image', 'text')
+        fields = ('title', 'city', 'state', 'country', 'region', 'subject', 'image', 'text')
 
     def clean_image(self):
 

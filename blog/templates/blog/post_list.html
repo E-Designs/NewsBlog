@@ -1,24 +1,25 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}  
+<article class="m-2">
+    <form method="GET">
+        {{search.form}}
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+</article>
         {% for post in posts %}
             <article class="post">
                 <div>
-                    <a href="{% url 'post_authors_posts' find_author=post.author.pk%}">
-                        <img class="arthor-img" src="{{ post.author.profile.image.url }}">
-                    </a>
+                    <img class="arthor-img" src="{{ post.author.profile.image.url }}">
                 </div>  
                 <time class="date">
                     published: {{ post.published_date }},
                     Author: {{post.author}},
-                    {% for id, value in post_cat %}
-                        {% if id == post.catagory %} 
-                            Catagory: {{value}}
-                        {% endif %}
-                    {% endfor %},
+                    City: {{post.city}},
+                    State: {{post.state}},
                     {%for id, value in post_sub %}
                         {% if id == post.subject %}
-                            Supject: {{value}}
+                            Subject: {{value}}
                         {% endif %}
                     {% endfor %}
                 </time>

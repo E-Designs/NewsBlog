@@ -48,3 +48,9 @@ nav ul li a{
 .post-image{
     width: 75%;
 }
+
+.bottom-border{
+    margin: 5px;
+    padding: 5px;
+    border-bottom:  #2A2C2B solid 2px;
+}

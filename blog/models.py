@@ -10,24 +10,24 @@ from PIL import Image
 # Create your models here.
 
 class Post(models.Model):
-    Local = 'Lc'
-    National = 'Nt'
-    Regional  = 'Rg'
-    World = 'Wr'
-    Business = 'Bs'
-    Technology = 'Tc'
-    Entertainment = 'En'
-    Health = 'Hl'
-    Lifestyle ='Lf'
-    Political = 'Pl'
-    Crime = 'Cr'
-    Mysteries = 'Ms'
-    Lost = "Ls"
-    Sports = 'Sp'
-    Obituaries = 'Ob'
+    Local = 'Local'
+    National = 'National'
+    Regional  = 'Reginal'
+    World = 'World'
+    Business = 'Business'
+    Technology = 'Technology'
+    Entertainment = 'Entertainment'
+    Health = 'Health'
+    Lifestyle ='Lifestyle'
+    Political = 'Political'
+    Crime = 'Crime'
+    Mysteries = 'Mysteries'
+    Lost = "Lost"
+    Sports = 'Sports'
+    Obituaries = 'Obituaries'
 
-    catagory_choices = [(Local, "Local"), (National, 'National'), (Regional, 'Regional'), (World, 'World')  ]
-    subject_Choices = [(Business, 'Business'), (Technology, 'Technology'), (Entertainment, 'Entertainment'), 
+    region_choices = [(Local, "Local"), (National, 'National'), (Regional, 'Regional'), (World, 'World')  ]
+    subject_choices = [(Business, 'Business'), (Technology, 'Technology'), (Entertainment, 'Entertainment'), 
     (Health, 'Health'), (Lifestyle, 'Lifestyle'), (Political, 'Political'), (Crime, 'Crime'), (Mysteries, 'Mysteries'),
     (Lost, 'Lost & Found'), (Sports, 'Sports'), (Obituaries, 'Obituaries')]
 
@@ -36,15 +36,15 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    catagory = models.CharField(max_length=100, choices= sorted(catagory_choices))
-    subject = models.CharField(max_length=100, choices= sorted(subject_Choices))
+    country = models.CharField(max_length=100) 
+    region = models.CharField(max_length=100, choices= sorted(region_choices))
+    subject = models.CharField(max_length=100, choices= sorted(subject_choices))
     text = models.TextField()
     visability = models.CharField(max_length=15, help_text= Visability_State.pending + ', ' +
     Visability_State.under_review + ', ' + Visability_State.approved + ', ' + Visability_State.hidden)
     image = models.ImageField(upload_to='post_pics/', default='post_default.jpg')
-    believers = models.ManyToManyField(User, related_name='post_believe')
-    nonbelievers = models.ManyToManyField(User, related_name='post_nonbeliever')
+    believer = models.ManyToManyField(User, related_name='post_believe', blank=True)
+    nonbeliever = models.ManyToManyField(User, related_name='post_nonbeliever', blank=True)
     create_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateField(blank=True, null=True)
 
@@ -56,10 +56,10 @@ class Post(models.Model):
         return '%s - %s' % (self.author, self.title)
 
     def number_of_believers(self):
-        return self.believers.count()
+        return self.believer.count()
 
     def number_of_nonbelievers(self):
-        return self.nonbelievers.count()
+        return self.nonbeliever.count()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
