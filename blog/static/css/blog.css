@@ -54,3 +54,8 @@ nav ul li a{
     padding: 5px;
     border-bottom:  #2A2C2B solid 2px;
 }
+
+.filter{
+    background-color:#ffff00;
+    border: #2A2C2B solid 2px;
+}
