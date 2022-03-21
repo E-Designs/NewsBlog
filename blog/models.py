@@ -44,7 +44,7 @@ class Post(models.Model):
     Visability_State.under_review + ', ' + Visability_State.approved + ', ' + Visability_State.hidden)
     image = models.ImageField(upload_to='post_pics/', default='post_default.jpg')
     believer = models.ManyToManyField(User, related_name='post_believe', blank=True)
-    nonbeliever = models.ManyToManyField(User, related_name='post_nonbeliever', blank=True)
+    sceptic = models.ManyToManyField(User, related_name='post_sceptic', blank=True)
     create_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateField(blank=True, null=True)
 
@@ -58,8 +58,8 @@ class Post(models.Model):
     def number_of_believers(self):
         return self.believer.count()
 
-    def number_of_nonbelievers(self):
-        return self.nonbeliever.count()
+    def number_of_sceptics(self):
+        return self.sceptic.count()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

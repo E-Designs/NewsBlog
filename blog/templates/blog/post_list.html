@@ -2,6 +2,9 @@
 {% load crispy_forms_tags %}
 
 {% block content %}  
+<section>
+    <h3>{{tag}}</h3>
+</section>
 <article class="m-2 filter">
     <div>
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#mfilter" aria-expanded="false" aria-controls="mfilter">Filter</button>
@@ -26,6 +29,7 @@
                     Author: {{post.author}},
                     City: {{post.city}},
                     State: {{post.state}},
+                    Country: {{post.contry}},
                     {%for id, value in post_sub %}
                         {% if id == post.subject %}
                             Subject: {{value}}

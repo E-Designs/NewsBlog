@@ -15,7 +15,7 @@ urlpatterns = [
     path('post/<int:pk>/show', views.post_show, name='post_show'),
     path('post/new-comment/<int:pk>', views.new_comment, name='new_comment'),
     path('post/believer/<int:pk>', views.post_believer, name='post_believer'),
-    path('post/nonbeliever/<int:pk>', views.post_nonbeliever, name='post_nonbeliever'),
+    path('post/sceptic/<int:pk>', views.post_sceptic, name='post_sceptic'),
 ]
 
 if settings.DEBUG:

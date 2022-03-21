@@ -6,15 +6,18 @@ from django.utils import timezone
 from .models import Post, Comment
 from .forms import CommentForm, PostForm
 from django.db.models import Q 
-from .utility import Visability_State
+from .utility import Visability_State, taglines
 from django.contrib.auth.decorators import login_required
 from .filters import postFilter
+import random
 # Create your views here.
 
 def post_about(request):
     return render(request, 'blog/post_about.html')
     
 def post_list(request):
+    num = random.randint(0, len(taglines) -1)
+    tagline = taglines[num]
     if request.user.is_staff:
         posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     else:
@@ -22,7 +25,7 @@ def post_list(request):
 
     search = postFilter(request.GET, queryset=posts)
     posts = search.qs
-    context = {'posts': posts,  'post_sub': Post.subject_choices, 'search': search,  }
+    context = {'posts': posts,  'post_sub': Post.subject_choices, 'search': search, 'tag': tagline,  }
     return render(request, 'blog/post_list.html', context)
 
 def post_detail(request, pk):
@@ -33,7 +36,7 @@ def post_detail(request, pk):
         'post_sub': Post.subject_choices,
         'comments': comments,
         'number_of_believers': post.number_of_believers(),
-        'number_of_nonbelievers': post.number_of_nonbelievers(),
+        'number_of_sceptics': post.number_of_sceptics(),
     }
     return render(request, 'blog/post_detail.html', context)
 
@@ -143,8 +146,8 @@ def post_believer(request, pk):
     else: #add user to the list
          post.believers.add(request.user)
     #checks to see if the user is in the nonbeliever list
-    if post.nonbelievers.filter(id=request.user.id).exists():
-        post.nonbelievers.remove(request.user) 
+    if post.sceptics.filter(id=request.user.id).exists():
+        post.sceptics.remove(request.user) 
 
     context={
         'pk': pk,
@@ -154,14 +157,14 @@ def post_believer(request, pk):
     return render(request, 'blog/post_vote.html', context)
 
 @login_required
-def post_nonbeliever(request, pk):
+def post_sceptic(request, pk):
     post = get_object_or_404(Post, pk=pk)
     mesg= 'Thank you for voting.'
 
-    if post.nonbelievers.filter(id=request.user.id).exists():
-        mesg = 'You are already a nonbeliever.'
+    if post.scepticss.filter(id=request.user.id).exists():
+        mesg = 'You are already a sceptic.'
     else:
-        post.nonbelievers.add(request.user)
+        post.sceptics.add(request.user)
 
     if post.believers.filter(id=request.user.id).exists():
         post.believers.remove(request.user)
