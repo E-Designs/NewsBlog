@@ -41,3 +41,6 @@ def profile(request):
     } 
 
     return render(request, 'users/profile.html', context) 
+
+def tou(request):
+    return render(request,'users/tou.html')

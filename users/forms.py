@@ -5,10 +5,11 @@ from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
+    accept = forms.BooleanField(required=True)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2','accept']
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
