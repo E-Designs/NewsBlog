@@ -25,11 +25,13 @@ class Post(models.Model):
     Lost = "Lost"
     Sports = 'Sports'
     Obituaries = 'Obituaries'
+    Announcements = 'Annoncements'
+
 
     region_choices = [(Local, "Local"), (National, 'National'), (Regional, 'Regional'), (World, 'World')  ]
     subject_choices = [(Business, 'Business'), (Technology, 'Technology'), (Entertainment, 'Entertainment'), 
     (Health, 'Health'), (Lifestyle, 'Lifestyle'), (Political, 'Political'), (Crime, 'Crime'), (Mysteries, 'Mysteries'),
-    (Lost, 'Lost & Found'), (Sports, 'Sports'), (Obituaries, 'Obituaries')]
+    (Lost, 'Lost & Found'), (Sports, 'Sports'), (Obituaries, 'Obituaries'), (Announcements, 'Announcements'),]
 
 
     author = models.ForeignKey(User, on_delete=models.CASCADE)

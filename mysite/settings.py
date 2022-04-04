@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
+    'support.apps.SupportConfig',
+    'games.apps.GamesConfig',
     'crispy_forms',
     'crispy_bootstrap5',
     'django_filters'

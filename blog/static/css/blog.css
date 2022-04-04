@@ -59,3 +59,8 @@ nav ul li a{
     background-color:#ffff00;
     border: #2A2C2B solid 2px;
 }
+
+footer p{
+    padding: 5px 0px 0px 6px;
+    font-weight: bold;
+}
