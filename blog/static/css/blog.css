@@ -64,3 +64,9 @@ footer p{
     padding: 5px 0px 0px 6px;
     font-weight: bold;
 }
+
+.black-white{
+    background-color: #000000;
+    color: #ffffff;
+    padding: 5px;
+}

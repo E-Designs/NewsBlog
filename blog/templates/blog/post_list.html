@@ -2,9 +2,10 @@
 {% load crispy_forms_tags %}
 
 {% block content %}  
-<section>
+<article class="black-white">
     <h3>{{tag}}</h3>
-</section>
+    <p>To become your towns top report <a href="{% url 'register' %}">Create An Account</a> today!</p>
+</article>
 <article class="m-2 filter">
     <div>
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#mfilter" aria-expanded="false" aria-controls="mfilter">Filter</button>
