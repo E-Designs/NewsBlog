@@ -46,7 +46,11 @@
     </time>
     {% endif %}
     <h2>{{ post.title}}</h2>
-    <p>{{ post.text|linebreaksbr}}</p>
+    <p>
+        {% with text=post.text|urlize %}
+        {{text|linebreaksbr}}
+        {%endwith%}
+    </p>
     <a class="btn btn-primary" href="{% url 'post_believer' pk=post.pk %}">Believers: {{number_of_believers}}</a>
     <a class="btn btn-danger" href="{% url 'post_sceptic' pk=post.pk %}">Sceptic: {{number_of_sceptics}}</a>
 </article>
