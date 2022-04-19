@@ -13,12 +13,25 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import imp
 from django.contrib import admin
 from django.urls import path, include
 from users import views as user_views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.sitemaps import GenericSitemap
+from django.contrib.sitemaps.views import sitemap
+from .sitemap import StaticSitemap, dynamicSitemap
+
+from blog.models import Post
+
+sitemaps = {'static': StaticSitemap, 'dynamic': dynamicSitemap}
+#info_dict ={
+   # 'queryset' : Post.objects.all(),
+
+#}
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -46,6 +59,9 @@ urlpatterns = [
     path('', include('blog.urls')),
     path('', include('support.urls')),
     path('', include('games.urls')),
+    #path('sitemap.xml', sitemap, {'sitemaps': { 'post' : GenericSitemap( info_dict, priority = 0.6), }}, 
+    #name = 'django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name ='django.contrib.sitemaps.views.sitemap', ),
 ]
 
 if settings.DEBUG:
