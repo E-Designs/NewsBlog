@@ -7,4 +7,5 @@ pytz==2021.1
 sqlparse==0.4.1
 whitenoise
 django-filter
+django-robots
 

@@ -6,23 +6,23 @@
     <aside class="actions">
         {% if user.is_authenticated %}
             {% if user == post.author or user.is_staff %}
-                <a class="btn btn-primary" href="{% url 'post_edit' pk=post.pk %}">Edit Post</a> 
-                <a class="btn btn-danger" href="{% url 'post_delete' pk=post.pk %}">Delete Post</a>
+                <a class="btn btn-primary" href="{% url 'post_edit' slug=post.slug %}">Edit Post</a> 
+                <a class="btn btn-danger" href="{% url 'post_delete' slug=post.slug %}">Delete Post</a>
             {% else %}
                 {% if post.visability == 'pending'%}
-                    <a class="btn btn-danger"  href="{% url 'post_report' pk=post.pk %}">Report Post</a>
+                    <a class="btn btn-danger"  href="{% url 'post_report' slug=post.slug %}">Report Post</a>
                 {% endif %}
             {% endif %}
             {% if user.is_staff %}
                 {% if post.visability == 'under review' %}
-                    <a class="btn btn-primary" href="{% url 'post_approve' pk=post.pk %}">Approve Post</a>
+                    <a class="btn btn-primary" href="{% url 'post_approve' slug=post.slug %}">Approve Post</a>
                 {% elif post.visability == 'hidden' %}
-                    <a class="btn btn-secondary" href="{% url 'post_show' pk=post.pk %}">Show post</a>
+                    <a class="btn btn-secondary" href="{% url 'post_show' slug=post.slug %}">Show post</a>
                 {%endif%}
             {% endif %}
         {% else %}
             {% if post.visability == 'pending' %}
-                <a class="btn btn-danger" href="{% url 'post_report' pk=post.pk %}">Report Post</a>
+                <a class="btn btn-danger" href="{% url 'post_report' slug=post.slug %}">Report Post</a>
             {% endif %}
         {% endif %}
         
@@ -51,14 +51,14 @@
         {{text|linebreaksbr}}
         {%endwith%}
     </p>
-    <a class="btn btn-primary" href="{% url 'post_believer' pk=post.pk %}">Believers: {{number_of_believers}}</a>
-    <a class="btn btn-danger" href="{% url 'post_sceptic' pk=post.pk %}">Sceptic: {{number_of_sceptics}}</a>
+    <a class="btn btn-primary" href="{% url 'post_believer' slug=post.slug %}">Believers: {{number_of_believers}}</a>
+    <a class="btn btn-danger" href="{% url 'post_sceptic' slug=post.slug %}">Sceptic: {{number_of_sceptics}}</a>
 </article>
 <article>
     <aside>
         <h3>Commnents</h3>
         <p>Please join the conversation. Everyone is waiting to hear your words of wisdom.</p>
-        <a class="btn btn-primary" href="{% url 'new_comment' pk=post.pk %}">Add Comment</a>
+        <a class="btn btn-primary" href="{% url 'new_comment' slug=post.slug %}">Add Comment</a>
     </aside>
     {% for comment in comments %}
     <aside>

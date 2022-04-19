@@ -1,5 +1,4 @@
 import random
-from re import U
 from typing import Tuple
 from django.conf import settings
 from django.db import models
@@ -85,7 +84,7 @@ class Post(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse('post_detail' , kwargs={'pk': self.pk} )
+        return reverse('post_detail' , kwargs={'slug': self.slug} )
 
 def post_pre_save(sender, instance, *args, **kwargs):
      if instance.slug is None:

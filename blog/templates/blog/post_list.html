@@ -37,7 +37,7 @@
                         {% endif %}
                     {% endfor %}
                 </time>
-                <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+                <h2><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h2>
                 <p>{{ post.text | truncatewords:20 |linebreaksbr }}</p>
             </article>
         {% endfor %}

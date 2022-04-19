@@ -28,8 +28,8 @@ def post_list(request):
     context = {'posts': posts,  'post_sub': Post.subject_choices, 'search': search, 'tag': tagline,  }
     return render(request, 'blog/post_list.html', context)
 
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_detail(request, slug=None):
+    post = get_object_or_404(Post, slug=slug)
     comments = Comment.objects.filter(story = post).order_by('-create_date')
     context = {
         'post': post,
@@ -50,33 +50,33 @@ def post_new(request):
             post.published_date = timezone.now()
             post.visability = Visability_State.pending
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_detail', slug=post.slug)
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
 @login_required
-def post_edit(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if post.author == request.user:
+def post_edit(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    if post.author == request.user or request.user.is_staff:
          if request.method == "POST":
              form = PostForm(request.POST, request.FILES , instance=post)
              
              if form.is_valid():
                  post =form.save(commit=False)
-                 post.author = request.user
+                 post.author = post.author
                  post.published_date = timezone.now()
                  post.visability = Visability_State.pending
                  post.save()
-                 return redirect('post_detail', pk=post.pk)
+                 return redirect('post_detail', slug=post.slug)
          else:
             form = PostForm(instance=post)
             return render(request, 'blog/post_edit.html', {'form': form})
     else:
         return redirect('post_list')
 
-def post_report(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_report(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
         post.visability= Visability_State.under_review
         post.save()
@@ -85,8 +85,8 @@ def post_report(request, pk):
         return render(request, 'blog/post_report.html')
 
 @login_required
-def post_approve(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_approve(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.user.is_staff:
         if request.method == "POST":
             post.visability= Visability_State.approved
@@ -98,8 +98,8 @@ def post_approve(request, pk):
         return redirect('post_list')
 
 @login_required
-def post_delete(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_delete(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.user == post.add_to_class or request.user.is_staff:
         if request.method == "POST":
             post.visability= Visability_State.hidden
@@ -111,8 +111,8 @@ def post_delete(request, pk):
         return redirect('post_list')
 
 @login_required
-def post_show(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_show(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
         post.visability= Visability_State.approved
         post.save()
@@ -121,8 +121,8 @@ def post_show(request, pk):
         return render(request, 'blog/post_show.html')
 
 @login_required
-def new_comment(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def new_comment(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.method == "POST": 
         form = CommentForm(request.POST)
         if (form.is_valid):
@@ -131,46 +131,46 @@ def new_comment(request, pk):
             comment.story = post
             comment.create_date = timezone.now()
             comment.save()
-            return redirect('post_detail', pk=pk)
+            return redirect('post_detail', slug=slug)
 
     form = CommentForm()
     return render(request, 'blog/new_comment.html', {'form': form})
 
 @login_required
-def post_believer(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_believer(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     mesg = 'Thank you for voting.'
     #check to see if the user is already a believer
-    if post.believers.filter(id=request.user.id).exists():
+    if post.believer.filter(id=request.user.id).exists():
         mesg = 'You are already a believer.'
     else: #add user to the list
-         post.believers.add(request.user)
+         post.believer.add(request.user)
     #checks to see if the user is in the nonbeliever list
-    if post.sceptics.filter(id=request.user.id).exists():
-        post.sceptics.remove(request.user) 
+    if post.sceptic.filter(id=request.user.id).exists():
+        post.sceptic.remove(request.user) 
 
     context={
-        'pk': pk,
+        'slug': post.slug,
         'mesg': mesg
     }
 
     return render(request, 'blog/post_vote.html', context)
 
 @login_required
-def post_sceptic(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_sceptic(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     mesg= 'Thank you for voting.'
 
-    if post.scepticss.filter(id=request.user.id).exists():
+    if post.sceptic.filter(id=request.user.id).exists():
         mesg = 'You are already a sceptic.'
     else:
-        post.sceptics.add(request.user)
+        post.sceptic.add(request.user)
 
-    if post.believers.filter(id=request.user.id).exists():
-        post.believers.remove(request.user)
+    if post.believer.filter(id=request.user.id).exists():
+        post.believer.remove(request.user)
 
     context={
-        'pk': pk,
+        'slug': post.slug,
         'mesg': mesg
     }
 

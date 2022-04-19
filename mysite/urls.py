@@ -15,7 +15,7 @@ Including another URLconf
 """
 import imp
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from users import views as user_views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -59,9 +59,9 @@ urlpatterns = [
     path('', include('blog.urls')),
     path('', include('support.urls')),
     path('', include('games.urls')),
-    #path('sitemap.xml', sitemap, {'sitemaps': { 'post' : GenericSitemap( info_dict, priority = 0.6), }}, 
-    #name = 'django.contrib.sitemaps.views.sitemap'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name ='django.contrib.sitemaps.views.sitemap', ),
+    #re_path(r'^sitemap.xml$', cache_page(60)(sitemap_view), {'sitemaps': sitemaps }, name='cached-sitemap'),
+    re_path(r'^robots\.txt', include('robots.urls')),
 ]
 
 if settings.DEBUG:
